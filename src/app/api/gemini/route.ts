@@ -3,14 +3,13 @@ import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
 interface GeminiApiRecieverProps {
   story: string;
-  options?: Map<string, boolean>;
+  tones: Array<string>;
 }
 
-// interface GeminiApiResponseProps {
-//     luckyTopics: Array<{ topic: string; percentage: number }>;
-//     advice: string;
-//     options?: Map<string, boolean>;
-// }
+// TODO: Define the expected response from the Gemini API.
+interface GeminiApiResponseProps {
+  advice: string;
+}
 
 const stringDetector = (text: string): boolean => {
   return Boolean(text && text.trim().length > 0);
@@ -21,11 +20,19 @@ export async function POST(request: NextRequest) {
 
   if (!stringDetector(body.story)) {
     return Response.json(
-      { message: "Please enter story teller!" },
+      { message: "Please enter story telling" },
       { status: 400 }
     );
   }
 
+  if (!Array.isArray(body.tones) || body.tones.length < 1) {
+    return Response.json(
+      { message: "Please enter at least a tone" },
+      { status: 400 }
+    );
+  }
+
+  // TODO: Fix new Prompt Schema
   // Define the JSON schema for the expected response:
   // - luckyTopics: list of objects containing a lucky topic and its percentage (0-100%)
   // - advice: a string explaining how to address luck-related matters.
@@ -35,18 +42,18 @@ export async function POST(request: NextRequest) {
     properties: {
       luckyTopics: {
         type: SchemaType.ARRAY,
-        description: "List of lucky topics with percentages (0-100%)",
+        description: "รายชื่อหัวข้อที่โชคดีพร้อมเปอร์เซ็นต์ (0-100%)",
         items: {
           type: SchemaType.OBJECT,
           properties: {
             topic: {
               type: SchemaType.STRING,
-              description: "A lucky aspect in a specific area",
+              description: "โชคลาภในด้านใดด้านหนึ่งโดยเฉพาะ",
               nullable: false,
             },
             percentage: {
               type: SchemaType.NUMBER,
-              description: "Luck percentage between 0 and 100",
+              description: "เปอร์เซ็นต์ความโชคดีอยู่ระหว่าง 0 ถึง 100",
               nullable: false,
             },
           },
@@ -55,7 +62,8 @@ export async function POST(request: NextRequest) {
       },
       advice: {
         type: SchemaType.STRING,
-        description: "Advice on how to solve issues related to luck",
+        description:
+          "คำแนะนำในการแก้ไขปัญหาเรื่องโชคลาภ มีความยาวไม่เกิน 5 บรรทัด",
         nullable: false,
       },
     },
@@ -73,7 +81,19 @@ export async function POST(request: NextRequest) {
   });
 
   // Generate content based on the input story.
-  const result = await model.generateContent(body.story);
+  // TODO: Need more context for prompt
+  const prompt = body.story + " ";
+  try {
+    var result = await model.generateContent(prompt);
+  } catch (error) {
+    return Response.json(
+      {
+        message: "Error generating content from Gemini.",
+        error: (error as any).message,
+      },
+      { status: 500 }
+    );
+  }
 
   // Attempt to parse the JSON response.
   try {
