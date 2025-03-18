@@ -68,6 +68,7 @@ const WaveBackground = () => {
         vec3 base = vec3(0.964705882, 0.5647058823529412, 0.43137254901960786);
         vec3 line = vec3(0.964705882, 0.803921568627451, 0.7333333333333333);
         vec3 color = mix(base, line, mask);
+        color *= 1.1;
 
         gl_FragColor = vec4(color, 1.0);
       }
