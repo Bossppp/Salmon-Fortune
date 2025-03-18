@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import OptionButton from "./OptionButton";
 import Image from "next/image";
 import { createPortal } from "react-dom";
-import { AppState, StateContext } from "@/app/page";
+import { AppState, StateContext } from "@/libs/context";
 export default function OptionPopUp({
   setPersona,
 }: {
@@ -22,11 +22,13 @@ export default function OptionPopUp({
   const [tones, setTones] = useState(mockTones);
   const [page, setPage] = useState(0);
   const [mounted, setMounted] = useState(false);
-  // const [toggle, setToggle] = useState(false);
 
   const handleClick = (event: React.MouseEvent) => {
     const targetElement = event.target as HTMLElement;
-    if (!targetElement.closest("#mainOption") && !targetElement.closest("#indie-btn")) {
+    if (
+      !targetElement.closest("#mainOption") &&
+      !targetElement.closest("#indie-btn")
+    ) {
       appState.setAppState?.(AppState.Prompt);
       setPersona(
         tones.filter((tone) => tone.selected).map((tone) => tone.text),
@@ -35,10 +37,6 @@ export default function OptionPopUp({
   };
 
   const handleToggle = () => {
-    // setToggle(!toggle);
-    // if (toggle === true) {
-    //   return;
-    // }
     setTones((prevTones) =>
       prevTones.map((tone) => ({ ...tone, selected: Math.random() < 0.5 })),
     );
@@ -78,21 +76,10 @@ export default function OptionPopUp({
                         : tone,
                     ),
                   );
-                  // setToggle(false);
                 }}
               />
             ))}
-          {/* {page == Math.floor((tones.length) / 3) ? (
-            <div
-              className={`select-none w-[240px] h-[33px] font-bold flex-shrink-0 rounded-[8px] border-[1.5px] flex justify-center items-center text-line hover:bg-line hover:text-bg hover:translate-y-0.5 transition-all`}
-              onClick={handleToggle}
-            >
-              ถามใจเทอดู
-            </div>
-          ) : (
-            ""
-          )} */}
-          {page >= Math.floor(tones.length / 3 - 1) ? (
+          {page >= Math.floor((tones.length - 1) / 3) ? (
             ""
           ) : (
             <Image
@@ -101,7 +88,7 @@ export default function OptionPopUp({
               width={25}
               height={24}
               onClick={() =>
-                setPage(Math.min(Math.floor(tones.length / 3 - 1), page + 1))
+                setPage(Math.min(Math.floor((tones.length - 1) / 3), page + 1))
               }
               className="absolute bottom-5 right-5 cursor-pointer hover:translate-y-0.5 transition-all max-[425px]:right-[-35] max-[425px]:top-1/2"
             />
