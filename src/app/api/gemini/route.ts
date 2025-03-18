@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
   });
 
   const tones = body.tones.join(", ");
-  const prompt = `${body.story} \nให้คำตอบมีความโทนในการตอบตลก \nให้จำลองว่าถ้าเป็นคนเหล่าดังนี้ในการตอบคำถาม: ${tones}`;
+  const prompt = `${body.story} \nให้เพิ่ม emoji ในการตอบ \nให้คำตอบมีความโทนในการตอบตลก \nให้จำลองว่าถ้าเป็นคนเหล่าดังนี้ในการตอบคำถาม: ${tones}`;
   try {
     var result = await model.generateContent(prompt);
   } catch (error) {
