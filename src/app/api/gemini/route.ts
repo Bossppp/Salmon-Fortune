@@ -1,23 +1,6 @@
 import type { NextRequest } from "next/server";
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
-interface GeminiApiRecieverProps {
-  story: string;
-  tones: Array<string>;
-}
-
-interface GeminiApiResponseProps {
-  prompt: string;
-  advice: string;
-  luckyTopics: Array<LuckyTopic>;
-}
-
-interface LuckyTopic {
-  percentage: number;
-  reason: string;
-  topic: string;
-}
-
 const stringDetector = (text: string): boolean => {
   return Boolean(text && text.trim().length > 0);
 };
