@@ -9,7 +9,13 @@ interface GeminiApiRecieverProps {
 interface GeminiApiResponseProps {
   prompt: string;
   advice: string;
-  luckyTopics: Array<Array<Object>>;
+  luckyTopics: Array<Array<GeminiResponse>>;
+}
+
+interface GeminiResponse {
+  percentage: number;
+  reason: string;
+  topic: string;
 }
 
 const stringDetector = (text: string): boolean => {
