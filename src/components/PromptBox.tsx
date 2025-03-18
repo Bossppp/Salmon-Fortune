@@ -1,6 +1,7 @@
 'use client'
+import { CircleUserRound, SendHorizonalIcon } from 'lucide-react';
 import React, { useState } from 'react';
-import { SendHorizonalIcon } from 'lucide-react';
+import FAB from './FAB';
 
 interface PromptBoxProps {
     onSend: (message: string) => void;
@@ -29,10 +30,14 @@ const PromptBox: React.FC<PromptBoxProps> = ({ onSend }) => {
                     value={message}
                     onChange={handleChange}
                 />
-                <button className="absolute right-2 bottom-2 bg-bg-shadow text-line font-medium px-4 py-2 rounded-md hover:bg-primary hover:translate-y-0.5 border-2 border-line transition-all flex flex-row" onClick={handleSend}>
-                    ส่งให้หลวงพ่อ
-                    <SendHorizonalIcon className='ml-3'/>
-                </button>
+                <div className='absolute right-2 bottom-2 flex gap-2'>
+                <FAB onClick={handleSend} text='เลือกคนคุย'>
+                    <CircleUserRound/>
+                </FAB>
+                <FAB onClick={handleSend} text='ส่งให้หลวงพ่อ'>
+                    <SendHorizonalIcon/>
+                </FAB>
+                </div>
             </div>
         </div>
     );
