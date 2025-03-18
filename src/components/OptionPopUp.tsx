@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import OptionButton from "./OptionButton";
 import Image from "next/image";
 import { createPortal } from "react-dom";
-export default function OptionPopUp() {
+export default function OptionPopUp({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
+}) {
   const mockTones = [
     { text: "พระ", selected: false },
     { text: "แซลม่อน", selected: false },
@@ -13,7 +19,6 @@ export default function OptionPopUp() {
 
   const [tones, setTones] = useState(mockTones);
   const [page, setPage] = useState(0);
-  const [isOpen, setIsOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [toggle, setToggle] = useState(false);
 
