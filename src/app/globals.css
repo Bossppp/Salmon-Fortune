@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme inline {
+  --color-primary: #F6906E;
+  --color-secondary: #EA5E2F;
+  --color-bg: #F9E8DC;
+  --color-bg-shadow: #F6CDBB;
+  --color-line: #762A19;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-line);
+}
