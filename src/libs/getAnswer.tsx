@@ -1,13 +1,10 @@
-async function getAnswer({userStory, userTones}: {userStory:string, userTones:string[]}) {
+async function getAnswer(params: GeminiApiRecieverProps): Promise<GeminiApiResponseProps> {
     const response = await fetch('/api/gemini',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            story: userStory,
-            tones: userTones
-        })
+        body: JSON.stringify(params)
     })
     console.log(response.status)
     if(!response.ok){
