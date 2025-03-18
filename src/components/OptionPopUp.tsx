@@ -53,7 +53,7 @@ export default function OptionPopUp({
       >
         <div
           id="mainOption"
-          className="bg-[var(--color-bg)] w-[498px] h-[240px] rounded-[22px] absolute top-1/2 left-1/2 transform-[translate(-50%,-50%)] flex flex-col items-center gap-5 index-2 /*fixed inset-0 */"
+          className="bg-[var(--color-bg)] w-[495px] max-[575px]:w-[80%] h-[240px] rounded-[22px] absolute top-1/2 left-1/2 transform-[translate(-50%,-50%)] flex flex-col items-center gap-5 index-2 "
         >
           <p className="flex flex-col justify-center flex-shrink-0 text-[#762A19] text-center text-[24px] font-bold tracking-[0px] mt-2">
             อยากถามคนไหนน
@@ -78,7 +78,7 @@ export default function OptionPopUp({
             ))}
           {page == Math.floor((tones.length - 1) / 3) ? (
             <div
-              className={`select-none w-[240px] h-[33px] font-bold flex-shrink-0 rounded-[8px] border-[1.5px] flex justify-center items-center ${!toggle ? "text-line" : "bg-line text-bg"} transition-colors hover:bg-line hover:text-bg`}
+              className={`select-none w-[240px] h-[33px] font-bold flex-shrink-0 rounded-[8px] border-[1.5px] flex justify-center items-center ${!toggle ? "text-line" : "bg-line text-bg"} hover:bg-line hover:text-bg hover:translate-y-0.5 transition-all`}
               onClick={handleToggle}
             >
               ถามใจเทอดู
@@ -97,7 +97,7 @@ export default function OptionPopUp({
               onClick={() =>
                 setPage(Math.min(Math.floor((tones.length - 1) / 3), page + 1))
               }
-              className="absolute bottom-5 right-5 cursor-pointer"
+              className="absolute bottom-5 right-5 cursor-pointer hover:translate-y-0.5 transition-all max-[425px]:right-[-35] max-[425px]:top-1/2"
             />
           )}
           {page <= 0 ? (
@@ -109,7 +109,7 @@ export default function OptionPopUp({
               width={25}
               height={24}
               onClick={() => setPage(Math.max(0, page - 1))}
-              className="rotate-180 absolute bottom-5 left-5 cursor-pointer"
+              className="rotate-180 absolute bottom-5 left-5 cursor-pointer hover:translate-y-0.5 transition-all max-[425px]:left-[-35] max-[425px]:top-1/2"
             />
           )}
         </div>
