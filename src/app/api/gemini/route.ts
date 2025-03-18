@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
   // Attempt to parse the JSON response.
   try {
     const parsedResponse = JSON.parse(result.response.text());
-    const output: GeminiApiResponseProps = { prompt, ...parsedResponse };
+    const output: GeminiApiResponseProps = { prompt: body.story, ...parsedResponse };
     return Response.json(output, { status: 200 });
   } catch (error) {
     return Response.json(
