@@ -14,6 +14,7 @@ export default function OptionPopUp({
     { text: "เด็กแว้น", selected: false },
     { text: "วัยรุ่น intania", selected: false },
     { text: "แม่หมอธรรมดา", selected: false },
+    { text: "แฟนเก่าที่จบกันไม่ดี", selected: false },
   ];
 
   const appState = useContext(StateContext);
@@ -21,11 +22,11 @@ export default function OptionPopUp({
   const [tones, setTones] = useState(mockTones);
   const [page, setPage] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
 
   const handleClick = (event: React.MouseEvent) => {
     const targetElement = event.target as HTMLElement;
-    if (!targetElement.closest("#mainOption")) {
+    if (!targetElement.closest("#mainOption") && !targetElement.closest("#indie-btn")) {
       appState.setAppState?.(AppState.Prompt);
       setPersona(
         tones.filter((tone) => tone.selected).map((tone) => tone.text),
@@ -34,13 +35,14 @@ export default function OptionPopUp({
   };
 
   const handleToggle = () => {
-    setToggle(!toggle);
-    if (toggle === true) {
-      return;
-    }
+    // setToggle(!toggle);
+    // if (toggle === true) {
+    //   return;
+    // }
     setTones((prevTones) =>
-      prevTones.map((tone) => ({ ...tone, selected: false })),
+      prevTones.map((tone) => ({ ...tone, selected: Math.random() < 0.5 })),
     );
+    console.log(tones);
   };
 
   useEffect(() => {
@@ -76,21 +78,21 @@ export default function OptionPopUp({
                         : tone,
                     ),
                   );
-                  setToggle(false);
+                  // setToggle(false);
                 }}
               />
             ))}
-          {page == Math.floor((tones.length - 1) / 3) ? (
+          {/* {page == Math.floor((tones.length) / 3) ? (
             <div
-              className={`select-none w-[240px] h-[33px] font-bold flex-shrink-0 rounded-[8px] border-[1.5px] flex justify-center items-center ${!toggle ? "text-line" : "bg-line text-bg"} hover:bg-line hover:text-bg hover:translate-y-0.5 transition-all`}
+              className={`select-none w-[240px] h-[33px] font-bold flex-shrink-0 rounded-[8px] border-[1.5px] flex justify-center items-center text-line hover:bg-line hover:text-bg hover:translate-y-0.5 transition-all`}
               onClick={handleToggle}
             >
               ถามใจเทอดู
             </div>
           ) : (
             ""
-          )}
-          {page >= Math.floor((tones.length - 1) / 3) ? (
+          )} */}
+          {page >= Math.floor(tones.length / 3 - 1) ? (
             ""
           ) : (
             <Image
@@ -99,7 +101,7 @@ export default function OptionPopUp({
               width={25}
               height={24}
               onClick={() =>
-                setPage(Math.min(Math.floor((tones.length - 1) / 3), page + 1))
+                setPage(Math.min(Math.floor(tones.length / 3 - 1), page + 1))
               }
               className="absolute bottom-5 right-5 cursor-pointer hover:translate-y-0.5 transition-all max-[425px]:right-[-35] max-[425px]:top-1/2"
             />
@@ -116,6 +118,13 @@ export default function OptionPopUp({
               className="rotate-180 absolute bottom-5 left-5 cursor-pointer hover:translate-y-0.5 transition-all max-[425px]:left-[-35] max-[425px]:top-1/2"
             />
           )}
+        </div>
+        <div
+          className={`select-none w-[240px] h-[33px] font-bold flex-shrink-0 rounded-[8px] flex justify-center items-center bg-line text-bg hover:bg-secondary hover:translate-y-0.5 transition-all absolute top-2 right-2 animate-pulse`}
+          id="indie-btn"
+          onClick={handleToggle}
+        >
+          ถามใจเทอดู 🤍
         </div>
       </div>,
       document.body,
