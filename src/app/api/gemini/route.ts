@@ -6,9 +6,10 @@ interface GeminiApiRecieverProps {
   tones: Array<string>;
 }
 
-// TODO: Define the expected response from the Gemini API.
 interface GeminiApiResponseProps {
+  prompt: string;
   advice: string;
+  luckyTopics: Array<Array<Object>>;
 }
 
 const stringDetector = (text: string): boolean => {
@@ -32,10 +33,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // TODO: Fix new Prompt Schema
-  // Define the JSON schema for the expected response:
-  // - luckyTopics: list of objects containing a lucky topic and its percentage (0-100%)
-  // - advice: a string explaining how to address luck-related matters.
   const schema = {
     description: "Lucky analysis and advice",
     type: SchemaType.OBJECT,
@@ -66,13 +63,13 @@ export async function POST(request: NextRequest) {
           required: ["topic", "percentage", "reason"],
         },
       },
-      Prophecy: {
+      advice: {
         type: SchemaType.STRING,
         description: "คำทำนายจากเรื่องราวที่ให้",
         nullable: false,
       },
     },
-    required: ["luckyTopics", "Prophecy"],
+    required: ["luckyTopics", "advice"],
   };
 
   // Initialize Gemini with the JSON output configuration.
@@ -85,18 +82,15 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  // Generate content based on the input story.
-  // TODO: Need more context for prompt
-  //modify string prompt
   const tones = body.tones.join(", ");
   const prompt = `${body.story} \nให้คำตอบมีความโทนในการตอบตลก \nให้จำลองว่าถ้าเป็นคนเหล่าดังนี้ในการตอบคำถาม: ${tones}`;
   try {
     var result = await model.generateContent(prompt);
   } catch (error) {
+    console.error((error as any).message);
     return Response.json(
       {
         message: "Error generating content from Gemini.",
-        error: (error as any).message,
       },
       { status: 500 }
     );
@@ -105,7 +99,7 @@ export async function POST(request: NextRequest) {
   // Attempt to parse the JSON response.
   try {
     const parsedResponse = JSON.parse(result.response.text());
-    const output = { prompt, ...parsedResponse };
+    const output: GeminiApiResponseProps = { prompt, ...parsedResponse };
     return Response.json(output, { status: 200 });
   } catch (error) {
     return Response.json(
