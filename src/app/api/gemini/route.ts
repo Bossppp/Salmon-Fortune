@@ -9,10 +9,10 @@ interface GeminiApiRecieverProps {
 interface GeminiApiResponseProps {
   prompt: string;
   advice: string;
-  luckyTopics: Array<GeminiResponse>;
+  luckyTopics: Array<LuckyTopic>;
 }
 
-interface GeminiResponse {
+interface LuckyTopic {
   percentage: number;
   reason: string;
   topic: string;
