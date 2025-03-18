@@ -2,21 +2,9 @@
 import AnswerBox from "@/components/AnswerBox";
 import OptionPopUp from "@/components/OptionPopUp";
 import PromptBox from "@/components/PromptBox";
+import { AppState, StateContext } from "@/libs/context";
 import getAnswer from "@/libs/getAnswer";
-import { createContext, useState } from "react";
-
-export enum AppState {
-  Prompt,
-  Popup,
-  Wait,
-  Answer,
-}
-
-interface Context {
-  appState?: AppState;
-  setAppState?: (state: AppState) => void;
-}
-export const StateContext = createContext<Context>({});
+import { useState } from "react";
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>(AppState.Prompt);
@@ -24,7 +12,11 @@ export default function Home() {
     story: "",
     tones: [],
   });
-  const [answer, setAnswer] = useState<GeminiApiResponseProps | null>({ prompt: '', advice: '', luckyTopics: [] });
+  const [answer, setAnswer] = useState<GeminiApiResponseProps | null>({
+    prompt: "",
+    advice: "",
+    luckyTopics: [],
+  });
 
   const handleSend = async (message: string) => {
     setAppState(AppState.Wait);

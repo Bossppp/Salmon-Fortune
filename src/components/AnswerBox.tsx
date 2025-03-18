@@ -1,6 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import getAnswer from "@/libs/getAnswer";
 import ProgressBar from "./ProgessBar";
 
 function AnswerBox({ answer }: { answer: GeminiApiResponseProps | null }) {
