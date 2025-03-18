@@ -40,7 +40,6 @@ export default function OptionPopUp({
     setTones((prevTones) =>
       prevTones.map((tone) => ({ ...tone, selected: Math.random() < 0.5 })),
     );
-    console.log(tones);
   };
 
   useEffect(() => {

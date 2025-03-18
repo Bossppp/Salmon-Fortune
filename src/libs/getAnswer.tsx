@@ -6,7 +6,6 @@ async function getAnswer(params: GeminiApiRecieverProps): Promise<GeminiApiRespo
         },
         body: JSON.stringify(params)
     })
-    console.log(response.status)
     if(!response.ok){
         throw new Error('Cant get answer')
     }
