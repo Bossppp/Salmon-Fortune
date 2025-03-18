@@ -42,32 +42,37 @@ export async function POST(request: NextRequest) {
     properties: {
       luckyTopics: {
         type: SchemaType.ARRAY,
-        description: "รายชื่อหัวข้อที่โชคดีพร้อมเปอร์เซ็นต์ (0-100%)",
+        description:
+          "รายชื่อหัวข้อที่โชคดีพร้อมเปอร์เซ็นต์ (0-100%) และเหตุผลที่ได้มา โดยอ้างอิงเนื้อหาจากเรื่องราวของ input prompt",
         items: {
           type: SchemaType.OBJECT,
           properties: {
             topic: {
               type: SchemaType.STRING,
-              description: "โชคลาภในด้านใดด้านหนึ่งโดยเฉพาะ",
+              description: "หัวข้อที่โชคดี",
               nullable: false,
             },
             percentage: {
               type: SchemaType.NUMBER,
-              description: "เปอร์เซ็นต์ความโชคดีอยู่ระหว่าง 0 ถึง 100",
+              description: "เปอร์เซ็นต์ความโชคดี มีค่าได้เป็น(0-100)",
+              nullable: false,
+            },
+            reason: {
+              type: SchemaType.STRING,
+              description: "ให้เหตุผลที่คำนวณว่าเป็นหัวข้อที่โชคดี",
               nullable: false,
             },
           },
-          required: ["topic", "percentage"],
+          required: ["topic", "percentage", "reason"],
         },
       },
-      advice: {
+      Prophecy: {
         type: SchemaType.STRING,
-        description:
-          "คำแนะนำในการแก้ไขปัญหาเรื่องโชคลาภ มีความยาวไม่เกิน 5 บรรทัด",
+        description: "คำทำนายจากเรื่องราวที่ให้",
         nullable: false,
       },
     },
-    required: ["luckyTopics", "advice"],
+    required: ["luckyTopics", "Prophecy"],
   };
 
   // Initialize Gemini with the JSON output configuration.
@@ -82,7 +87,9 @@ export async function POST(request: NextRequest) {
 
   // Generate content based on the input story.
   // TODO: Need more context for prompt
-  const prompt = body.story + " ";
+  //modify string prompt
+  const tones = body.tones.join(", ");
+  const prompt = `${body.story} \nให้คำตอบมีความโทนในการตอบตลก \nให้จำลองว่าถ้าเป็นคนเหล่าดังนี้ในการตอบคำถาม: ${tones}`;
   try {
     var result = await model.generateContent(prompt);
   } catch (error) {
@@ -97,7 +104,8 @@ export async function POST(request: NextRequest) {
 
   // Attempt to parse the JSON response.
   try {
-    const output = JSON.parse(result.response.text());
+    const parsedResponse = JSON.parse(result.response.text());
+    const output = { prompt, ...parsedResponse };
     return Response.json(output, { status: 200 });
   } catch (error) {
     return Response.json(
