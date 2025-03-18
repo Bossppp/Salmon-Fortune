@@ -5,9 +5,10 @@ import FAB from './FAB';
 
 interface PromptBoxProps {
     onSend: (message: string) => void;
+    onPopup: () => void;
 }
 
-const PromptBox: React.FC<PromptBoxProps> = ({ onSend }) => {
+const PromptBox: React.FC<PromptBoxProps> = ({ onSend, onPopup }) => {
     const [message, setMessage] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -15,9 +16,8 @@ const PromptBox: React.FC<PromptBoxProps> = ({ onSend }) => {
     };
 
     const handleSend = () => {
-        if (onSend) {
+        if (onSend) 
             onSend(message);
-        }
         setMessage('');
     };
 
@@ -31,7 +31,7 @@ const PromptBox: React.FC<PromptBoxProps> = ({ onSend }) => {
                     onChange={handleChange}
                 />
                 <div className='absolute right-2 bottom-2 flex gap-2'>
-                <FAB onClick={handleSend} text='เลือกคนคุย'>
+                <FAB onClick={onPopup} text='เลือกคนคุย'>
                     <CircleUserRound/>
                 </FAB>
                 <FAB onClick={handleSend} text='ส่งให้หลวงพ่อ'>

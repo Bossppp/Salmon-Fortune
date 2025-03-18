@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import OptionButton from "./OptionButton";
 import Image from "next/image";
 import { createPortal } from "react-dom";
+import { AppState, StateContext } from "@/app/page";
 export default function OptionPopUp({
-  isOpen,
-  setIsOpen,
+  setPersona,
 }: {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  setPersona: (persona: Array<string>) => void;
 }) {
   const mockTones = [
     { text: "พระ", selected: false },
@@ -17,6 +16,8 @@ export default function OptionPopUp({
     { text: "แม่หมอธรรมดา", selected: false },
   ];
 
+  const appState = useContext(StateContext);
+
   const [tones, setTones] = useState(mockTones);
   const [page, setPage] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -25,7 +26,10 @@ export default function OptionPopUp({
   const handleClick = (event: React.MouseEvent) => {
     const targetElement = event.target as HTMLElement;
     if (!targetElement.closest("#mainOption")) {
-      setIsOpen(false);
+      appState.setAppState?.(AppState.Prompt);
+      setPersona(
+        tones.filter((tone) => tone.selected).map((tone) => tone.text),
+      );
     }
   };
 
@@ -45,7 +49,7 @@ export default function OptionPopUp({
 
   return (
     mounted &&
-    isOpen &&
+    appState.appState === AppState.Popup &&
     createPortal(
       <div
         className="fixed inset-0 top-0 left-0 w-[100vw] h-[100vh] bg-black/70 z-[1000]"
