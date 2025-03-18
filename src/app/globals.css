@@ -2,7 +2,7 @@
 
 @theme inline {
   --color-primary: #F6906E;
-  --color-secondary: #EA5E2F;
+  --color-secondary: #EA5E2FA0;
   --color-bg: #F9E8DC;
   --color-bg-shadow: #F6CDBB;
   --color-line: #762A19;
@@ -11,4 +11,5 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-line);
+  scrollbar-color: var(--color-primary) var(--color-line);
 }

@@ -21,15 +21,15 @@ const PromptBox: React.FC<PromptBoxProps> = ({ onSend }) => {
     };
 
     return (
-        <div className="w-full max-w-xl mx-auto p-4">
-            <div className="relative w-[578px] h-64 bg-bg rounded-xl shadow-[inset_8px_8px_0px_0px_rgba(246,205,187,1.00)] outline outline-2 outline-line">
+        <div className="w-full max-w-xl p-8 mx-auto">
+            <div className="relative w-full h-64 bg-bg rounded-xl shadow-[inset_8px_8px_0px_0px_rgba(246,205,187,1.00)] border-2 focus-within:outline-none overflow-hidden">
                 <textarea
-                    className="w-full h-full p-4 justify-center text-zinc-400"
+                    className="justify-center w-full h-full p-4 placeholder:text-zinc-400 focus:outline-none resize-none overflow-x-hidden overflow-y"
                     placeholder="บอกอาตามหน่อยว่าวันนี้เป็นยังไงบ้าง…อย่าส่งบ่อย ติด rate limit นะจ๊ะ"
                     value={message}
                     onChange={handleChange}
                 />
-                <button className="absolute right-2 bottom-2 bg-bg-shadow text-line font-medium px-4 py-2 rounded-md hover:bg-orange-400 transition-colors flex flex-row" onClick={handleSend}>
+                <button className="absolute right-2 bottom-2 bg-bg-shadow text-line font-medium px-4 py-2 rounded-md hover:bg-primary hover:translate-y-0.5 border-2 border-line transition-all flex flex-row" onClick={handleSend}>
                     ส่งให้หลวงพ่อ
                     <SendHorizonalIcon className='ml-3'/>
                 </button>
