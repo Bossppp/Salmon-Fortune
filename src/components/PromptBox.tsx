@@ -33,7 +33,7 @@ const PromptBox: React.FC<PromptBoxProps> = ({ onSend, onPopup }) => {
         <FAB onClick={onPopup} text="เลือกคนคุย">
           <CircleUserRound />
         </FAB>
-        <FAB onClick={handleSend} text="ส่งให้หลวงพ่อ">
+        <FAB onClick={handleSend} text="ส่งให้คนคุย">
           <SendHorizonalIcon />
         </FAB>
       </div>
