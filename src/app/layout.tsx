@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -13,6 +12,9 @@ const ibmFlex = IBM_Plex_Sans_Thai({
 export const metadata: Metadata = {
   title: "Salmon Fortune",
   description: "ดูดวงกับแซลม่อน",
+  icons: {
+    icon: "/favicon.ico", // Path to your favicon
+  },
 };
 
 export default function RootLayout({
@@ -20,10 +22,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="th">
-      <head><link rel="icon" href="/favicon.ico" sizes="any" /></head>
       <body className={`${ibmFlex.className} overflow-y-hidden`}>
         <WaveBackground />
         {children}
