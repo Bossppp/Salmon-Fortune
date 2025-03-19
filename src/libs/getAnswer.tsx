@@ -1,4 +1,5 @@
 async function getAnswer(params: GeminiApiRecieverProps): Promise<GeminiApiResponseProps> {
+
     const response = await fetch('/api/gemini',{
         method: 'POST',
         headers: {

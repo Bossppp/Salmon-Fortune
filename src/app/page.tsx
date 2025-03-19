@@ -20,13 +20,20 @@ export default function Home() {
 
   const handleSend = async (message: string) => {
     setAppState(AppState.Wait);
-    const data = await getAnswer(
-      prompt
-        ? { story: message, tones: prompt.tones }
-        : { story: message, tones: [] },
-    );
-    setAnswer(data);
-    setAppState(AppState.Answer);
+    
+    const updatedPrompt = prompt?.tones.length
+      ? { ...prompt, story: message }
+      : { story: message, tones: ["พระ"] };
+
+    setPrompt(updatedPrompt);
+    try {
+      const data = await getAnswer(updatedPrompt);
+      setAnswer(data);
+      setAppState(AppState.Answer);
+    } catch (error) {
+      console.error("Error fetching answer:", error);
+      setAppState(AppState.Prompt); 
+    }
   };
 
   return (
