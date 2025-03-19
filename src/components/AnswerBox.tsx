@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import { StateContext, AppState } from "@/libs/context";
 import ProgressBar from "./ProgessBar";
-
+import Image from "next/image";
 function AnswerBox({ answer }: { answer: GeminiApiResponseProps | null }) {
   const { appState } = useContext(StateContext);
   console.log(appState);
@@ -10,13 +10,7 @@ function AnswerBox({ answer }: { answer: GeminiApiResponseProps | null }) {
     return (
       <div className="lg:w-5/12 sm:w-10/12 w-11/12 h-[40vh] bg-bg rounded-2xl shadow-[inset_8px_8px_0px_0px_rgba(246,205,187,1.00)] border-2 flex items-center justify-center overflow-hidden">
         <div className="text-center">
-        <video
-            className="w-full h-full"
-            src="/loading.mp4"
-            autoPlay
-            loop
-            muted
-          ></video>
+        <Image alt="" width={0} height={0} className="w-fit h-fit" src="/loading.gif"/>
         </div>
       </div>
     );
