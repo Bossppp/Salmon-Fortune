@@ -1,7 +1,27 @@
 "use client";
+import { useContext } from "react";
+import { StateContext, AppState } from "@/libs/context";
 import ProgressBar from "./ProgessBar";
 
 function AnswerBox({ answer }: { answer: GeminiApiResponseProps | null }) {
+  const { appState } = useContext(StateContext);
+  console.log(appState);
+  if (appState === AppState.Wait) {
+    return (
+      <div className="lg:w-5/12 sm:w-10/12 w-11/12 h-[40vh] bg-bg rounded-2xl shadow-[inset_8px_8px_0px_0px_rgba(246,205,187,1.00)] border-2 flex items-center justify-center overflow-hidden">
+        <div className="text-center">
+        <video
+            className="w-full h-full"
+            src="/loading.mp4"
+            autoPlay
+            loop
+            muted
+          ></video>
+        </div>
+      </div>
+    );
+  }
+
   return (
     answer && (
       <div className="lg:w-5/12 sm:w-10/12 w-11/12 h-[40vh] bg-bg rounded-2xl shadow-[inset_8px_8px_0px_0px_rgba(246,205,187,1.00)] border-2 focus-within:outline-none overflow-hidden overflow-y-auto">
