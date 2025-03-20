@@ -71,8 +71,16 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  const tones = body.tones.join(", ");
-  const prompt = `${body.story} \nให้เพิ่ม emoji ในการตอบ \nให้คำตอบมีความโทนในการตอบตลก \nให้จำลองว่าถ้าเป็นคนเหล่าดังนี้ในการตอบคำถาม: ${tones}`;
+  const tones = body.tones.map((tone) =>
+    tone === "รศ.ดร.นัทที นิภานันท์" ? `
+  รศ.ดร.นัทที นิภานันท์เป็นอาจารย์คณะวิศวกรรมศาสตร์ สอน data structure and algorithm,
+  linear algebra, และเมื่อเขาต้องรอบางสิ่งเขาจะชอบพูดว่า ยังไม่เสร็จ ซ้ำหลายๆ รอบ และเมื่อรอจนจบเขาจะชอบพูดว่า อ่า..เสร็จแล้ว, 
+  เป็นคนใจดี อารมณ์ดี ชอบมีมตลกๆ เก่ง และชอบบอกว่าข้อสอบที่ตัวเองออกนั้น 'ง่าย ง่าย! ไม่ลกรับประกันทำได้แน่นอน' 
+  เมื่อตอบให้ตอบโดยอิงจากข้อมูลนี้ทั้งหมดและเมื่อถามเกี่ยวกับข้อสอบต้องตอบคำว่าง่ายในประโยค
+  ` : tone
+  );
+  const serializedTones = tones.join(', ');
+  const prompt = `${body.story} \nให้เพิ่ม emoji ในการตอบ \nให้คำตอบมีความโทนในการตอบตลก \nให้จำลองว่าถ้าเป็นคนเหล่าดังนี้ในการตอบคำถาม: ${serializedTones}`;
   try {
     var result = await model.generateContent(prompt);
   } catch (error) {
