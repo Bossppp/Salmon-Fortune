@@ -16,6 +16,8 @@ export default function OptionPopUp({
     { text: "แม่หมอธรรมดา", selected: false },
     { text: "แฟนเก่าที่จบกันไม่ดี", selected: false },
     { text: "รศ.ดร.นัทที นิภานันท์", selected: false },
+    { text: "ต้นไม้ของพ่อ", selected: false },
+    { text: "อุ อิ อา", selected: false },
   ];
 
   const appState = useContext(StateContext);
