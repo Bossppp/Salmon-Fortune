@@ -15,6 +15,7 @@ export default function OptionPopUp({
     { text: "วัยรุ่น intania", selected: false },
     { text: "แม่หมอธรรมดา", selected: false },
     { text: "แฟนเก่าที่จบกันไม่ดี", selected: false },
+    { text: "รศ.ดร.นัทที นิภานันท์", selected: false },
   ];
 
   const appState = useContext(StateContext);
